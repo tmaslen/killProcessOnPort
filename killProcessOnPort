@@ -1,0 +1,25 @@
+# kill -9 `lsof -nP -i4TCP:$1 | grep LISTEN | awk '{print $2}'`
+
+PORT=$1
+FORCE=$2
+
+if [ -z $PORT ]
+then
+	echo "Which port do you want to stop the process on?"
+	read PORT
+fi
+
+if [ "$FORCE" == "-f" ]
+then
+	kill -9 `lsof -nP -i4TCP:$PORT | grep LISTEN | awk '{print $2}'`
+else
+	lsof -nP -i4TCP:$PORT | grep LISTEN | awk '{print "Process on port is: " $1 "("$2")"}'
+	echo "Kill it? (Y/n)"
+
+	read yesNo
+
+	if [ "$yesNo" != "N" ]
+	then
+		kill -9 `lsof -nP -i4TCP:$PORT | grep LISTEN | awk '{print $2}'`
+	fi
+fi
