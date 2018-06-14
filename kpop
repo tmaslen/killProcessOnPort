@@ -1,5 +1,3 @@
-# kill -9 `lsof -nP -i4TCP:$1 | grep LISTEN | awk '{print $2}'`
-
 PORT=$1
 FORCE=$2
 
@@ -18,7 +16,7 @@ else
 
 	read yesNo
 
-	if [ "$yesNo" != "N" ]
+	if [ "$yesNo" != "n" ]
 	then
 		kill -9 `lsof -nP -i4TCP:$PORT | grep LISTEN | awk '{print $2}'`
 	fi
